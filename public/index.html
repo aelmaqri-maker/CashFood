@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Management Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card.profit .value {
+            color: #10b981;
+        }
+
+        .card.expenses .value {
+            color: #ef4444;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #10b981;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .card .value {
+                font-size: 1.5em;
+            }
+
+            .tabs {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Sales Management Dashboard</h1>
+
+        <!-- Dashboard Summary Cards -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>💰 Total Sales (This Month)</h3>
+                <div class="value" id="totalSales">$0.00</div>
+            </div>
+            <div class="card expenses">
+                <h3>📉 Total Expenses (This Month)</h3>
+                <div class="value" id="totalExpenses">$0.00</div>
+            </div>
+            <div class="card">
+                <h3>👥 Worker Payments (This Month)</h3>
+                <div class="value" id="totalWorkers">$0.00</div>
+            </div>
+            <div class="card profit">
+                <h3>📈 Net Profit (This Month)</h3>
+                <div class="value" id="netProfit">$0.00</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('sales')">Record Sale</button>
+            <button class="tab-btn" onclick="showTab('expenses')">Add Expense</button>
+            <button class="tab-btn" onclick="showTab('workers')">Manage Workers</button>
+            <button class="tab-btn" onclick="showTab('sales-list')">Sales History</button>
+            <button class="tab-btn" onclick="showTab('expenses-list')">Expenses History</button>
+        </div>
+
+        <!-- Record Sale Tab -->
+        <div id="sales" class="tab-content active">
+            <h2>Record New Sale</h2>
+            <br>
+            <form id="saleForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="productName" required placeholder="Enter product name">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" id="quantity" required min="1" placeholder="Enter quantity">
+                    </div>
+                    <div class="form-group">
+                        <label>Price per Unit ($)</label>
+                        <input type="number" id="price" required min="0.01" step="0.01" placeholder="Enter price">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="saleDate">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Record Sale</button>
+            </form>
+        </div>
+
+        <!-- Add Expense Tab -->
+        <div id="expenses" class="tab-content">
+            <h2>Add Monthly Expense</h2>
+            <br>
+            <form id="expenseForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expense Type</label>
+                        <select id="expenseType" required>
+                            <option value="">Select expense type</option>
+                            <option value="rent">Rent</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="water">Water</option>
+                            <option value="wifi">WiFi</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount ($)</label>
+                        <input type="number" id="expenseAmount" required min="0.01" step="0.01" placeholder="Enter amount">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="expenseDescription" placeholder="Optional description">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="expenseDate">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Add Expense</button>
+            </form>
+        </div>
+
+        <!-- Manage Workers Tab -->
+        <div id="workers" class="tab-content">
+            <h2>Manage Workers</h2>
+            <br>
+            <form id="workerForm" style="margin-bottom: 30px;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Worker Name</label>
+                        <input type="text" id="workerName" required placeholder="Enter worker name">
+                    </div>
+                    <div class="form-group">
+                        <label>Monthly Payment ($)</label>
+                        <input type="number" id="workerPayment" required min="0.01" step="0.01" placeholder="Enter monthly payment">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Add Worker</button>
+            </form>
+
+            <h3>Worker List & Payments</h3>
+            <table id="workersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Monthly Payment</th>
+                        <th>Last Payment Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Sales History Tab -->
+        <div id="sales-list" class="tab-content">
+            <h2>Sales History</h2>
+            <table id="salesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Expenses History Tab -->
+        <div id="expenses-list" class="tab-content">
+            <h2>Expenses History</h2>
+            <table id="expensesHistoryTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabId === 'sales-list') loadSales();
+            if (tabId === 'expenses-list') loadExpenses();
+            if (tabId === 'workers') loadWorkers();
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard');
+                const data = await response.json();
+                
+                document.getElementById('totalSales').textContent = `$${data.totalSales.toFixed(2)}`;
+                document.getElementById('totalExpenses').textContent = `$${data.totalExpenses.toFixed(2)}`;
+                document.getElementById('totalWorkers').textContent = `$${data.totalWorkers.toFixed(2)}`;
+                document.getElementById('netProfit').textContent = `$${data.profit.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Record Sale
+        document.getElementById('saleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const saleData = {
+                product_name: document.getElementById('productName').value,
+                quantity: parseInt(document.getElementById('quantity').value),
+                price: parseFloat(document.getElementById('price').value),
+                date: document.getElementById('saleDate').value || new Date().toISOString().split('T')[0]
+            };
+
+            try {
+                const response = await fetch('/api/sales', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(saleData)
+                });
+
+                if (response.ok) {
+                    alert('Sale recorded successfully!');
+                    document.getElementById('saleForm').reset();
+                    loadDashboard();
+                } else {
+                    alert('Error recording sale');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error recording sale');
+            }
+        });
+
+        // Add Expense
+        document.getElementById('expenseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const expenseData = {
+                type: document.getElementById('expenseType').value,
+                amount: parseFloat(document.getElementById('expenseAmount').value),
+                description: document.getElementById('expenseDescription').value,
+                date: document.getElementById('expenseDate').value || new Date().toISOString().split('T')[0]
+            };
+
+            try {
+                const response = await fetch('/api/expenses', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(expenseData)
+                });
+
+                if (response.ok) {
+                    alert('Expense added successfully!');
+                    document.getElementById('expenseForm').reset();
+                    loadDashboard();
+                } else {
+                    alert('Error adding expense');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding expense');
+            }
+        });
+
+        // Add Worker
+        document.getElementById('workerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const workerData = {
+                name: document.getElementById('workerName').value,
+                monthly_payment: parseFloat(document.getElementById('workerPayment').value)
+            };
+
+            try {
+                const response = await fetch('/api/workers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(workerData)
+                });
+
+                if (response.ok) {
+                    alert('Worker added successfully!');
+                    document.getElementById('workerForm').reset();
+                    loadWorkers();
+                } else {
+                    alert('Error adding worker');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding worker');
+            }
+        });
+
+        // Load Workers
+        async function loadWorkers() {
+            try {
+                const response = await fetch('/api/workers');
+                const workers = await response.json();
+                
+                const tbody = document.querySelector('#workersTable tbody');
+                tbody.innerHTML = '';
+                
+                workers.forEach(worker => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${worker.id}</td>
+                        <td>${worker.name}</td>
+                        <td>$${worker.monthly_payment.toFixed(2)}</td>
+                        <td>${worker.payment_date || 'Not paid'}</td>
+                        <td><button class="btn btn-secondary" onclick="payWorker(${worker.id})">Pay Now</button></td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading workers:', error);
+            }
+        }
+
+        // Pay Worker
+        async function payWorker(id) {
+            try {
+                const response = await fetch(`/api/workers/${id}/pay`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ date: new Date().toISOString().split('T')[0] })
+                });
+
+                if (response.ok) {
+                    alert('Payment recorded!');
+                    loadWorkers();
+                    loadDashboard();
+                } else {
+                    alert('Error recording payment');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error recording payment');
+            }
+        }
+
+        // Load Sales
+        async function loadSales() {
+            try {
+                const response = await fetch('/api/sales');
+                const sales = await response.json();
+                
+                const tbody = document.querySelector('#salesTable tbody');
+                tbody.innerHTML = '';
+                
+                sales.forEach(sale => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${sale.id}</td>
+                        <td>${sale.product_name}</td>
+                        <td>${sale.quantity}</td>
+                        <td>$${sale.price.toFixed(2)}</td>
+                        <td>$${sale.total.toFixed(2)}</td>
+                        <td>${sale.date}</td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading sales:', error);
+            }
+        }
+
+        // Load Expenses
+        async function loadExpenses() {
+            try {
+                const response = await fetch('/api/expenses');
+                const expenses = await response.json();
+                
+                const tbody = document.querySelector('#expensesHistoryTable tbody');
+                tbody.innerHTML = '';
+                
+                expenses.forEach(expense => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${expense.id}</td>
+                        <td>${expense.type.toUpperCase()}</td>
+                        <td>$${expense.amount.toFixed(2)}</td>
+                        <td>${expense.description || '-'}</td>
+                        <td>${expense.date}</td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading expenses:', error);
+            }
+        }
+
+        // Initialize
+        loadDashboard();
+        
+        // Set default dates to today
+        document.getElementById('saleDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>
