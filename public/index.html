@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Management Dashboard</title>
+    <title>لوحة إدارة المبيعات - Sales Management Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #c41e3a 0%, #1e5631 100%);
             min-height: 100vh;
             padding: 20px;
+            direction: ltr;
         }
 
         .container {
@@ -51,7 +52,7 @@
         }
 
         .card h3 {
-            color: #667eea;
+            color: #c41e3a;
             font-size: 1.1em;
             margin-bottom: 10px;
         }
@@ -89,7 +90,7 @@
         }
 
         .tab-btn.active {
-            background: #667eea;
+            background: #c41e3a;
             color: white;
         }
 
@@ -131,12 +132,12 @@
 
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #c41e3a;
         }
 
         .btn {
             padding: 12px 30px;
-            background: #667eea;
+            background: #c41e3a;
             color: white;
             border: none;
             border-radius: 8px;
@@ -147,7 +148,7 @@
         }
 
         .btn:hover {
-            background: #5568d3;
+            background: #a01830;
         }
 
         .btn-secondary {
@@ -171,7 +172,7 @@
         }
 
         th {
-            background: #667eea;
+            background: #c41e3a;
             color: white;
             font-weight: 600;
         }
@@ -203,125 +204,125 @@
 </head>
 <body>
     <div class="container">
-        <h1>📊 Sales Management Dashboard</h1>
+        <h1>🇲🇦 لوحة إدارة المبيعات - Moroccan Sales Manager</h1>
 
         <!-- Dashboard Summary Cards -->
         <div class="dashboard-cards">
             <div class="card">
-                <h3>💰 Total Sales (This Month)</h3>
-                <div class="value" id="totalSales">$0.00</div>
+                <h3>💰 إجمالي المبيعات (هذا الشهر)</h3>
+                <div class="value" id="totalSales">0.00 د.م.</div>
             </div>
             <div class="card expenses">
-                <h3>📉 Total Expenses (This Month)</h3>
-                <div class="value" id="totalExpenses">$0.00</div>
+                <h3>📉 إجمالي المصاريف (هذا الشهر)</h3>
+                <div class="value" id="totalExpenses">0.00 د.م.</div>
             </div>
             <div class="card">
-                <h3>👥 Worker Payments (This Month)</h3>
-                <div class="value" id="totalWorkers">$0.00</div>
+                <h3>👥 مدفوعات العمال (هذا الشهر)</h3>
+                <div class="value" id="totalWorkers">0.00 د.م.</div>
             </div>
             <div class="card profit">
-                <h3>📈 Net Profit (This Month)</h3>
-                <div class="value" id="netProfit">$0.00</div>
+                <h3>📈 صافي الربح (هذا الشهر)</h3>
+                <div class="value" id="netProfit">0.00 د.م.</div>
             </div>
         </div>
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('sales')">Record Sale</button>
-            <button class="tab-btn" onclick="showTab('expenses')">Add Expense</button>
-            <button class="tab-btn" onclick="showTab('workers')">Manage Workers</button>
-            <button class="tab-btn" onclick="showTab('sales-list')">Sales History</button>
-            <button class="tab-btn" onclick="showTab('expenses-list')">Expenses History</button>
+            <button class="tab-btn active" onclick="showTab('sales')">تسجيل بيع - Record Sale</button>
+            <button class="tab-btn" onclick="showTab('expenses')">إضافة مصاريف - Add Expense</button>
+            <button class="tab-btn" onclick="showTab('workers')">إدارة العمال - Manage Workers</button>
+            <button class="tab-btn" onclick="showTab('sales-list')">سجل المبيعات - Sales History</button>
+            <button class="tab-btn" onclick="showTab('expenses-list')">سجل المصاريف - Expenses History</button>
         </div>
 
         <!-- Record Sale Tab -->
         <div id="sales" class="tab-content active">
-            <h2>Record New Sale</h2>
+            <h2>تسجيل بيع جديد - Record New Sale</h2>
             <br>
             <form id="saleForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Product Name</label>
-                        <input type="text" id="productName" required placeholder="Enter product name">
+                        <label>اسم المنتج - Product Name</label>
+                        <input type="text" id="productName" required placeholder="أدخل اسم المنتج - Enter product name">
                     </div>
                     <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="number" id="quantity" required min="1" placeholder="Enter quantity">
+                        <label>الكمية - Quantity</label>
+                        <input type="number" id="quantity" required min="1" placeholder="أدخل الكمية - Enter quantity">
                     </div>
                     <div class="form-group">
-                        <label>Price per Unit ($)</label>
-                        <input type="number" id="price" required min="0.01" step="0.01" placeholder="Enter price">
+                        <label>سعر الوحدة (د.م) - Price per Unit (MAD)</label>
+                        <input type="number" id="price" required min="0.01" step="0.01" placeholder="أدخل السعر - Enter price">
                     </div>
                     <div class="form-group">
-                        <label>Date</label>
+                        <label>التاريخ - Date</label>
                         <input type="date" id="saleDate">
                     </div>
                 </div>
-                <button type="submit" class="btn">Record Sale</button>
+                <button type="submit" class="btn">تسجيل البيع - Record Sale</button>
             </form>
         </div>
 
         <!-- Add Expense Tab -->
         <div id="expenses" class="tab-content">
-            <h2>Add Monthly Expense</h2>
+            <h2>إضافة مصاريف شهرية - Add Monthly Expense</h2>
             <br>
             <form id="expenseForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Expense Type</label>
+                        <label>نوع المصروف - Expense Type</label>
                         <select id="expenseType" required>
-                            <option value="">Select expense type</option>
-                            <option value="rent">Rent</option>
-                            <option value="electricity">Electricity</option>
-                            <option value="water">Water</option>
-                            <option value="wifi">WiFi</option>
-                            <option value="other">Other</option>
+                            <option value="">اختر نوع المصروف - Select expense type</option>
+                            <option value="rent">الكراء - Rent</option>
+                            <option value="electricity">الكهرباء - Electricity</option>
+                            <option value="water">الماء - Water</option>
+                            <option value="wifi">الإنترنت - WiFi</option>
+                            <option value="other">أخرى - Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Amount ($)</label>
-                        <input type="number" id="expenseAmount" required min="0.01" step="0.01" placeholder="Enter amount">
+                        <label>المبلغ (د.م) - Amount (MAD)</label>
+                        <input type="number" id="expenseAmount" required min="0.01" step="0.01" placeholder="أدخل المبلغ - Enter amount">
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" id="expenseDescription" placeholder="Optional description">
+                        <label>الوصف - Description</label>
+                        <input type="text" id="expenseDescription" placeholder="وصف اختياري - Optional description">
                     </div>
                     <div class="form-group">
-                        <label>Date</label>
+                        <label>التاريخ - Date</label>
                         <input type="date" id="expenseDate">
                     </div>
                 </div>
-                <button type="submit" class="btn">Add Expense</button>
+                <button type="submit" class="btn">إضافة المصروف - Add Expense</button>
             </form>
         </div>
 
         <!-- Manage Workers Tab -->
         <div id="workers" class="tab-content">
-            <h2>Manage Workers</h2>
+            <h2>إدارة العمال - Manage Workers</h2>
             <br>
             <form id="workerForm" style="margin-bottom: 30px;">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Worker Name</label>
-                        <input type="text" id="workerName" required placeholder="Enter worker name">
+                        <label>اسم العامل - Worker Name</label>
+                        <input type="text" id="workerName" required placeholder="أدخل اسم العامل - Enter worker name">
                     </div>
                     <div class="form-group">
-                        <label>Monthly Payment ($)</label>
-                        <input type="number" id="workerPayment" required min="0.01" step="0.01" placeholder="Enter monthly payment">
+                        <label>الراتب الشهري (د.م) - Monthly Payment (MAD)</label>
+                        <input type="number" id="workerPayment" required min="0.01" step="0.01" placeholder="أدخل الراتب الشهري - Enter monthly payment">
                     </div>
                 </div>
-                <button type="submit" class="btn">Add Worker</button>
+                <button type="submit" class="btn">إضافة عامل - Add Worker</button>
             </form>
 
-            <h3>Worker List & Payments</h3>
+            <h3>قائمة العمال والمدفوعات - Worker List & Payments</h3>
             <table id="workersTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Monthly Payment</th>
-                        <th>Last Payment Date</th>
-                        <th>Action</th>
+                        <th>الاسم - Name</th>
+                        <th>الراتب الشهري - Monthly Payment</th>
+                        <th>تاريخ آخر دفع - Last Payment Date</th>
+                        <th>إجراء - Action</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -330,16 +331,16 @@
 
         <!-- Sales History Tab -->
         <div id="sales-list" class="tab-content">
-            <h2>Sales History</h2>
+            <h2>سجل المبيعات - Sales History</h2>
             <table id="salesTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Date</th>
+                        <th>المنتج - Product</th>
+                        <th>الكمية - Quantity</th>
+                        <th>السعر - Price</th>
+                        <th>المجموع - Total</th>
+                        <th>التاريخ - Date</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -348,15 +349,15 @@
 
         <!-- Expenses History Tab -->
         <div id="expenses-list" class="tab-content">
-            <h2>Expenses History</h2>
+            <h2>سجل المصاريف - Expenses History</h2>
             <table id="expensesHistoryTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
+                        <th>النوع - Type</th>
+                        <th>المبلغ - Amount</th>
+                        <th>الوصف - Description</th>
+                        <th>التاريخ - Date</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -383,10 +384,10 @@
                 const response = await fetch('/api/dashboard');
                 const data = await response.json();
                 
-                document.getElementById('totalSales').textContent = `$${data.totalSales.toFixed(2)}`;
-                document.getElementById('totalExpenses').textContent = `$${data.totalExpenses.toFixed(2)}`;
-                document.getElementById('totalWorkers').textContent = `$${data.totalWorkers.toFixed(2)}`;
-                document.getElementById('netProfit').textContent = `$${data.profit.toFixed(2)}`;
+                document.getElementById('totalSales').textContent = `${data.totalSales.toFixed(2)} د.م.`;
+                document.getElementById('totalExpenses').textContent = `${data.totalExpenses.toFixed(2)} د.م.`;
+                document.getElementById('totalWorkers').textContent = `${data.totalWorkers.toFixed(2)} د.م.`;
+                document.getElementById('netProfit').textContent = `${data.profit.toFixed(2)} د.م.`;
             } catch (error) {
                 console.error('Error loading dashboard:', error);
             }
@@ -497,9 +498,9 @@
                     row.innerHTML = `
                         <td>${worker.id}</td>
                         <td>${worker.name}</td>
-                        <td>$${worker.monthly_payment.toFixed(2)}</td>
-                        <td>${worker.payment_date || 'Not paid'}</td>
-                        <td><button class="btn btn-secondary" onclick="payWorker(${worker.id})">Pay Now</button></td>
+                        <td>${worker.monthly_payment.toFixed(2)} د.م.</td>
+                        <td>${worker.payment_date || 'لم يتم الدفع - Not paid'}</td>
+                        <td><button class="btn btn-secondary" onclick="payWorker(${worker.id})">دفع الآن - Pay Now</button></td>
                     `;
                 });
             } catch (error) {
@@ -544,8 +545,8 @@
                         <td>${sale.id}</td>
                         <td>${sale.product_name}</td>
                         <td>${sale.quantity}</td>
-                        <td>$${sale.price.toFixed(2)}</td>
-                        <td>$${sale.total.toFixed(2)}</td>
+                        <td>${sale.price.toFixed(2)} د.م.</td>
+                        <td>${sale.total.toFixed(2)} د.م.</td>
                         <td>${sale.date}</td>
                     `;
                 });
@@ -565,10 +566,17 @@
                 
                 expenses.forEach(expense => {
                     const row = tbody.insertRow();
+                    const typeLabels = {
+                        'rent': 'الكراء - Rent',
+                        'electricity': 'الكهرباء - Electricity',
+                        'water': 'الماء - Water',
+                        'wifi': 'الإنترنت - WiFi',
+                        'other': 'أخرى - Other'
+                    };
                     row.innerHTML = `
                         <td>${expense.id}</td>
-                        <td>${expense.type.toUpperCase()}</td>
-                        <td>$${expense.amount.toFixed(2)}</td>
+                        <td>${typeLabels[expense.type] || expense.type.toUpperCase()}</td>
+                        <td>${expense.amount.toFixed(2)} د.م.</td>
                         <td>${expense.description || '-'}</td>
                         <td>${expense.date}</td>
                     `;

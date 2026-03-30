@@ -1,0 +1,29 @@
+{
+  "sales": [
+    {
+      "id": 1,
+      "product_name": "Test Product",
+      "quantity": 2,
+      "price": 15.5,
+      "total": 31,
+      "date": "2026-03-30"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "type": "rent",
+      "amount": 500,
+      "description": "Monthly rent",
+      "date": "2026-03-30"
+    }
+  ],
+  "workers": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "monthly_payment": 1200,
+      "payment_date": "2026-03-30"
+    }
+  ]
+}
